@@ -12,8 +12,10 @@ namespace QuickBuy.Web
 {
     public class Startup
     {
+        private readonly IConfiguration _configuration;
         public Startup(IConfiguration configuration)
         {
+            _configuration = configuration;
             var builder = new ConfigurationBuilder();
             builder.AddJsonFile("config.json", optional: false, reloadOnChange: true);
             Configuration = builder.Build();
@@ -28,7 +30,9 @@ namespace QuickBuy.Web
 
             string connetionString = Configuration.GetConnectionString("MySqlServerConnection");
             services.AddDbContext<QuickBuyContext>(
-                                                    options => options.UseSqlServer(connetionString,
+                                                    options => options
+                                                    .UseLazyLoadingProxies()
+                                                    .UseSqlServer(connetionString,
                                                                 m => m.MigrationsAssembly("QuickBuy.Repositorio")));
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

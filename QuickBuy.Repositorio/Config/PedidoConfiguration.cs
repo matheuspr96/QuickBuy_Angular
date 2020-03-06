@@ -45,19 +45,7 @@ namespace QuickBuy.Repositorio.Config
                .Property(p => p.NumeroEndereco)
                .IsRequired();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+            builder.HasMany(p => p.ItensPedido);
         }
     }
 }
